@@ -2,8 +2,9 @@
 
 import pytesseract
 from PIL import Image
+import io
 
-# OCR main function
+# Path-based OCR (for local use)
 def extract_text(image_path):
     try:
         img = Image.open(image_path)
@@ -12,11 +13,8 @@ def extract_text(image_path):
     except Exception as e:
         return f"[OCR ERROR] {e}"
 
-# Module status
-OCR_MODULE_READY = True
 
-import io
-
+# Bytes-based OCR (for API)
 def ocr_image(image_bytes):
     try:
         img = Image.open(io.BytesIO(image_bytes))
@@ -24,3 +22,7 @@ def ocr_image(image_bytes):
         return text
     except Exception as e:
         return f"[OCR ERROR] {e}"
+
+
+# Module status
+OCR_MODULE_READY = True

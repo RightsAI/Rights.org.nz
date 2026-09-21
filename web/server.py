@@ -9,7 +9,6 @@ app = FastAPI(
     description="Backend API for OCR, PDF processing, and system info."
 )
 
-# Подключаем маршруты
 app.include_router(router)
 
 
