@@ -27,10 +27,8 @@ async def test_page():
     with open("web/test.html", "r", encoding="utf-8") as f:
         return HTMLResponse(f.read())
 
-    
+
 @app.get("/upload")
 async def upload_page():
     with open("web/upload.html", "r", encoding="utf-8") as f:
         return HTMLResponse(f.read())
-
-
