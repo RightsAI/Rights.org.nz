@@ -1,0 +1,7 @@
+# RIGHTS.ORG.NZ — Web Initialization File
+
+# FastAPI placeholder
+WEB_READY = True
+
+# Routes registry placeholder
+ROUTES = []
