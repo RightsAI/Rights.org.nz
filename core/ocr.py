@@ -14,3 +14,13 @@ def extract_text(image_path):
 
 # Module status
 OCR_MODULE_READY = True
+
+import io
+
+def ocr_image(image_bytes):
+    try:
+        img = Image.open(io.BytesIO(image_bytes))
+        text = pytesseract.image_to_string(img)
+        return text
+    except Exception as e:
+        return f"[OCR ERROR] {e}"
