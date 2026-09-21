@@ -1,6 +1,7 @@
 # RIGHTS.ORG.NZ — Main Server
 
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 from web.routes import router
 
 app = FastAPI(
@@ -19,3 +20,8 @@ async def root():
         "message": "API is online",
         "docs": "/docs"
     }
+
+@app.get("/test")
+async def test_page():
+    with open("web/test.html", "r", encoding="utf-8") as f:
+        return HTMLResponse(f.read())

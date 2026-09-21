@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RIGHTS.ORG.NZ — System Test</title>
+    <style>
+        body {
+            background: #0d0d0d;
+            color: #00ff99;
+            font-family: Consolas, monospace;
+            padding: 40px;
+        }
+        h1 {
+            color: #00ffcc;
+        }
+        .box {
+            border: 1px solid #00ff99;
+            padding: 20px;
+            margin-top: 20px;
+            background: rgba(0, 255, 153, 0.05);
+        }
+        button {
+            background: #00ff99;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #00ffaa;
+        }
+        pre {
+            background: #111;
+            padding: 15px;
+            border: 1px solid #00ff99;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+<h1>RIGHTS.ORG.NZ — System Test</h1>
+<p>Нажми кнопку, чтобы проверить работу всех модулей.</p>
+
+<button onclick="runTests()">Проверить систему</button>
+
+<div id="results" class="box"></div>
+
+<script>
+async function runTests() {
+    const base = window.location.origin;
+
+    const endpoints = {
+        status: base + "/status",
+        info: base + "/info",
+        boot: base + "/boot"
+    };
+
+    let output = "";
+
+    output += "🔍 Проверка /status...\n";
+    const status = await fetch(endpoints.status).then(r => r.json());
+    output += JSON.stringify(status, null, 2) + "\n\n";
+
+    output += "🔍 Проверка /info...\n";
+    const info = await fetch(endpoints.info).then(r => r.json());
+    output += JSON.stringify(info, null, 2) + "\n\n";
+
+    output += "🔍 Проверка /boot...\n";
+    const boot = await fetch(endpoints.boot).then(r => r.json());
+    output += JSON.stringify(boot, null, 2) + "\n\n";
+
+    document.getElementById("results").innerHTML =
+        "<pre>" + output + "</pre>";
+}
+</script>
+
+</body>
+</html>
