@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RIGHTS.ORG.NZ — File OCR</title>
+    <style>
+        body {
+            background: #0d0d0d;
+            color: #00ff99;
+            font-family: Consolas, monospace;
+            padding: 40px;
+        }
+        h1 {
+            color: #00ffcc;
+        }
+        .box {
+            border: 1px solid #00ff99;
+            padding: 20px;
+            margin-top: 20px;
+            background: rgba(0, 255, 153, 0.05);
+        }
+        input[type="file"] {
+            margin-top: 20px;
+            color: #00ff99;
+        }
+        button {
+            background: #00ff99;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #00ffaa;
+        }
+        pre {
+            background: #111;
+            padding: 15px;
+            border: 1px solid #00ff99;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+<h1>RIGHTS.ORG.NZ — OCR / PDF Reader</h1>
+<p>Загрузи картинку или PDF, и система прочитает текст.</p>
+
+<input type="file" id="fileInput">
+<br>
+<button onclick="sendFile()">Отправить файл</button>
+
+<div id="results" class="box"></div>
+
+<script>
+async function sendFile() {
+    const file = document.getElementById("fileInput").files[0];
+    if (!file) {
+        alert("Выбери файл!");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const base = window.location.origin;
+
+    let endpoint = "";
+
+    if (file.type === "application/pdf") {
+        endpoint = base + "/pdf";
+    } else {
+        endpoint = base + "/ocr";
+    }
+
+    const response = await fetch(endpoint, {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await response.json();
+
+    document.getElementById("results").innerHTML =
+        "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
+}
+</script>
+
+</body>
+</html>
