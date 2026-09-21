@@ -1,24 +1,25 @@
-# RIGHTS.ORG.NZ — PDF Processing Module
+# RIGHTS.ORG.NZ — PDF Module
 
-from pdf2image import convert_from_path
-from core.ocr import extract_text
+from pdf2image import convert_from_bytes
+import io
 
-# Convert PDF to images and extract text
-def process_pdf(pdf_path):
+# Convert PDF bytes to list of image bytes
+def pdf_to_images(pdf_bytes):
     try:
-        pages = convert_from_path(pdf_path)
-        full_text = ""
+        # Convert PDF to PIL images
+        pil_images = convert_from_bytes(pdf_bytes)
 
-        for page in pages:
-            page_path = "temp_page.png"
-            page.save(page_path, "PNG")
-            text = extract_text(page_path)
-            full_text += text + "\n"
+        # Convert each PIL image to raw bytes
+        image_bytes_list = []
+        for img in pil_images:
+            buf = io.BytesIO()
+            img.save(buf, format="PNG")
+            image_bytes_list.append(buf.getvalue())
 
-        return full_text
+        return image_bytes_list
 
     except Exception as e:
-        return f"[PDF ERROR] {e}"
+        return [f"[PDF ERROR] {e}"]
 
 # Module status
 PDF_MODULE_READY = True
