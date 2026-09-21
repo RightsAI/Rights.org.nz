@@ -1,21 +1,22 @@
-# RIGHTS.ORG.NZ — FastAPI Web Server
+# RIGHTS.ORG.NZ — Main Server
 
 from fastapi import FastAPI
-from core.boot import boot_system
 from web.routes import router
 
-app = FastAPI()
+app = FastAPI(
+    title="RIGHTS.ORG.NZ Backend",
+    version="1.0.0",
+    description="Backend API for OCR, PDF processing, and system info."
+)
 
-@app.get("/")
-def root():
-    return {"message": "RIGHTS.ORG.NZ backend is running"}
-
-@app.get("/status")
-def system_status():
-    return {"status": boot_system()}
-
-# Register routes
+# Подключаем маршруты
 app.include_router(router)
 
-# Server ready flag
-WEB_SERVER_READY = True
+
+@app.get("/")
+async def root():
+    return {
+        "system": "RIGHTS.ORG.NZ Backend",
+        "message": "API is online",
+        "docs": "/docs"
+    }
